@@ -10,4 +10,9 @@ before_install:
     - gcloud config set project lateral-spirit-278116
     - gcloud config set compute/zone us-central1-c
     - gcloud container clusters get-credentials multi-clusters
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - docker build -t ntambellini/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+    - docker run -e CI=true ntambellini/react-test npm run test
     
